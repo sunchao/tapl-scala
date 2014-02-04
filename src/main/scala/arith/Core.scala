@@ -1,21 +1,21 @@
 package arith
 
 object Core {
-  case class NoRuleApplies(val t:Term) extends Exception("No rule applies to term: " + t)
-  
+	import common._
+
   def isNumericVal(t: Term): Boolean = t match {
     case TmZero => true
     case TmSucc(t1) => isNumericVal(t1)
     case _ => false
-  } 
-  
+  }
+
   def isVal(t: Term): Boolean = t match {
     case TmTrue => true
     case TmFalse => true
     case t if isNumericVal(t) => true
     case _ => false
   }
-  
+
   def eval1(t: Term): Term = t match {
     case TmIf(TmTrue,t2,t3) => t2
     case TmIf(TmFalse,t2,t3) => t3
@@ -28,7 +28,7 @@ object Core {
     case TmIsZero(t1) => TmIsZero(eval1(t1))
     case t => throw new NoRuleApplies(t)
   }
-  
+
   def eval(t: Term): Term = try {
     val t1 = eval1(t)
     eval(t1)

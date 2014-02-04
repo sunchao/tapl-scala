@@ -1,5 +1,7 @@
 package arith
 
+import common._
+
 import scala.util.parsing.combinator.syntactical.StandardTokenParsers
 import java.io.FileReader
 import scala.io.Source
@@ -43,8 +45,21 @@ object ParseArith extends ArithParser with App {
     val tokens = new lexical.Scanner(s)
     phrase(term)(tokens) match {
       case Success(t,_) => t
-      case t:NoSuccess => error(t.toString())
+      case t:NoSuccess => sys.error(t.toString())
     }
   }
+  
+  override def main(args: Array[String]): Unit = {
+    args foreach (s => println(eval(parse(s))))
+  }
+
+
+
+
+
+
+
+
+
 
 }
